@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Can/Can't - Action Verbs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard', 'Arial', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: all 0.5s ease;
+        }
+
+        body.desktop {
+            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), 
+                        url('img/backpc.jpeg') center/cover fixed;
+        }
+
+        body.mobile {
+            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), 
+                        url('img/backmob.jpeg') center/cover fixed;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .main-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .menu-title {
+            text-align: center;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .menu-btn {
+            padding: 25px 40px;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        }
+
+        .menu-btn:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
+        .menu-btn.level1 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .menu-btn.level2 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .menu-btn.level3 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+        .game-screen {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .game-screen.active {
+            display: flex;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .rule-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .rule-btn:hover {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .rule-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .rule-modal.active {
+            display: flex;
+        }
+
+        .rule-content {
+            max-width: 90vw;
+            max-height: 85vh;
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rule-content img {
+            max-width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .rule-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 45px;
+            height: 45px;
+            background: #e74c3c;
+            color: white;
+            border: 3px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .rule-close:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .single-card-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .flashcard-single {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 4px solid #f093fb;
+        }
+
+        .flashcard-single:hover {
+            transform: scale(1.02);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.2);
+        }
+
+        .flashcard-single img {
+            width: 100%;
+            height: 260px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .flashcard-single .word {
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            color: #2c3e50;
+            font-weight: bold;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .card-controls {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .nav-card-btn {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 15px;
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .nav-card-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            background: #5a6fd6;
+        }
+
+        .nav-card-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quiz-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .quiz-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quiz-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .option-btn {
+            padding: 20px;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .option-btn.correct {
+            background: #2ecc71;
+            border-color: #27ae60;
+            color: white;
+            animation: pulse 0.5s ease;
+        }
+
+        .option-btn.wrong {
+            background: #e74c3c;
+            border-color: #c0392b;
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        .grammar-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .grammar-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .grammar-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .sentence-box {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .sentence {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            color: #2c3e50;
+            line-height: 2;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .blank {
+            display: inline-flex;
+            min-width: 100px;
+            padding: 10px 20px;
+            border: 3px dashed #bdc3c7;
+            border-radius: 10px;
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .blank.filled {
+            border-style: solid;
+            border-color: #2ecc71;
+            background: #d5f5e3;
+            animation: popIn 0.3s ease;
+        }
+
+        .choices-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .choice-btn {
+            padding: 15px 30px;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            border: 3px solid #3498db;
+            border-radius: 15px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .choice-btn:hover:not(:disabled) {
+            background: #3498db;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .choice-btn.correct {
+            background: #2ecc71;
+            border-color: #27ae60;
+            color: white;
+        }
+
+        .choice-btn.wrong {
+            background: #e74c3c;
+            border-color: #c0392b;
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        .progress {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            font-weight: bold;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @keyframes popIn {
+            0% { 
+                transform: scale(0);
+                opacity: 0;
+            }
+            80% { 
+                transform: scale(1.1);
+            }
+            100% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-image,
+            .grammar-image {
+                height: 250px;
+            }
+
+            .rule-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sentence {
+                font-size: 1rem;
+            }
+
+            .blank {
+                min-width: 80px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body class="desktop">
+    <div class="container">
+        <!-- Main Menu -->
+        <div class="main-menu" id="mainMenu">
+            <h1 class="menu-title">🎯 Can/Can't Practice</h1>
+            <button class="menu-btn level1" onclick="startLevel(1)">
+                 Level 1: Flashcards
+            </button>
+            <button class="menu-btn level2" onclick="startLevel(2)">
+                ️ Level 2: Choose the Word
+            </button>
+            <button class="menu-btn level3" onclick="startLevel(3)">
+                 Level 3: Can or Can't
+            </button>
+        </div>
+
+        <!-- Level 1: Flashcards -->
+        <div class="game-screen" id="level1">
+            <button class="back-btn" onclick="backToMenu()">← Back</button>
+            <div class="progress" id="progress1">1 / 19</div>
+            <h2 class="menu-title" style="margin-top: 30px;">Flashcards</h2>
+            
+            <div class="single-card-wrapper">
+                <div class="flashcard-single" id="flashcardSingle" onclick="speakCurrentCard()">
+                    <img id="cardImg" src="" alt="Action">
+                    <div class="word" id="cardWord">🔊 Word</div>
+                </div>
+                <div class="card-controls">
+                    <button class="nav-card-btn" id="prevCardBtn" onclick="prevCard()">← Prev</button>
+                    <button class="nav-card-btn" id="nextCardBtn" onclick="nextCard()">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Level 2: Multiple Choice -->
+        <div class="game-screen" id="level2">
+            <button class="back-btn" onclick="backToMenu()">← Back</button>
+            <div class="progress" id="progress2">1 / 19</div>
+            <div class="quiz-container" id="quizContainer">
+                <div class="quiz-image">
+                    <img id="quizImg" src="" alt="Action">
+                </div>
+                <div class="options-grid" id="optionsGrid"></div>
+            </div>
+        </div>
+
+        <!-- Level 3: Can/Can't -->
+        <div class="game-screen" id="level3">
+            <button class="back-btn" onclick="backToMenu()">← Back</button>
+            <button class="rule-btn" onclick="showRule()">💡</button>
+            <div class="progress" id="progress3">1 / 10</div>
+            <div class="grammar-container" id="grammarContainer">
+                <div class="grammar-image">
+                    <img id="grammarImg" src="" alt="Action">
+                </div>
+                <div class="sentence-box">
+                    <div class="sentence" id="sentence"></div>
+                    <div class="choices-container" id="choicesContainer"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rule Modal -->
+        <div class="rule-modal" id="ruleModal" onclick="hideRule(event)">
+            <div class="rule-content" onclick="event.stopPropagation()">
+                <button class="rule-close" onclick="hideRule()">×</button>
+                <img src="img/rule.png" alt="Grammar Rule">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Расширенная база действий для Уровня 1 и 2 (19 действий)
+        const actionsMaster = [
+            { word: 'swim', img: 'img/MrsStar.png' },
+            { word: 'play the piano', img: 'img/MrsStar6.png' },
+            { word: 'ride a bike', img: 'img/Alex1.png' },
+            { word: 'play tennis', img: 'img/MraStar1.png' },
+            { word: 'play the guitar', img: 'img/Alex2.png' },
+            { word: 'play football', img: 'img/Maskman3.png' },
+            { word: 'play basketball', img: 'img/MrStar2.png' },
+            { word: 'fly', img: 'img/Maskman4.png' },
+            { word: 'run', img: 'img/MrStar1.png' },
+            { word: 'jump', img: 'img/Simon1.png' },
+            { word: 'climb a tree', img: 'img/Alex3.png' },
+            { word: 'ride a horse', img: 'img/MrStar3.png' },
+            { word: 'sing', img: 'img/Alex4.png' },
+            { word: 'dance', img: 'img/MrsStar5.png' },
+            { word: 'draw a picture', img: 'img/MrsStar2.png' },
+            { word: 'kick a ball', img: 'img/Suzy7.png' },
+            { word: 'throw a ball', img: 'img/Maskman5.png' },
+            { word: 'catch a ball', img: 'img/Suzy6.png' },
+            { word: 'hit a ball', img: 'img/Maskman7.png' }
+        ];
+
+        // База Уровня 3 (38 заданий, отбираются 10 рандомных)
+        const grammarExercisesMaster = [
+            { img: 'img/Alex1.png', subject: 'Alex', can: false, action: 'ride a bike', verb: 'ride' },
+            { img: 'img/Alex2.png', subject: 'Alex', can: true, action: 'play the guitar', verb: 'play' },
+            { img: 'img/Alex3.png', subject: 'Alex', can: true, action: 'climb a tree', verb: 'climb' },
+            { img: 'img/Alex4.png', subject: 'Alex', can: true, action: 'sing', verb: 'sing' },
+            { img: 'img/Alex5.png', subject: 'Alex', can: false, action: 'play the piano', verb: 'play' },
+            { img: 'img/Alex6.png', subject: 'Alex', can: false, action: 'ride a bike', verb: 'ride' },
+            { img: 'img/Maskman1.png', subject: 'Maskman', can: true, action: 'ride a horse', verb: 'ride' },
+            { img: 'img/Maskman2.png', subject: 'Maskman', can: true, action: 'play tennis', verb: 'play' },
+            { img: 'img/Maskman3.png', subject: 'Maskman', can: true, action: 'play football', verb: 'play' },
+            { img: 'img/Maskman4.png', subject: 'Maskman', can: true, action: 'fly', verb: 'fly' },
+            { img: 'img/Meera1.png', subject: 'Meera', can: false, action: 'climb a tree', verb: 'climb' },
+            { img: 'img/MraStar1.png', subject: 'Mrs Star', can: false, action: 'play tennis', verb: 'play' },
+            { img: 'img/MrsStar.png', subject: 'Mrs Star', can: true, action: 'swim', verb: 'swim' },
+            { img: 'img/MrsStar2.png', subject: 'Mrs Star', can: true, action: 'draw a picture', verb: 'draw' },
+            { img: 'img/MrsStar3.png', subject: 'Mrs Star', can: true, action: 'play football', verb: 'play' },
+            { img: 'img/MrsStar4.png', subject: 'Mrs Star', can: false, action: 'ride a horse', verb: 'ride' },
+            { img: 'img/MrsStar5.png', subject: 'Mrs Star', can: true, action: 'dance', verb: 'dance' },
+            { img: 'img/MrsStar6.png', subject: 'Mrs Star', can: true, action: 'play the piano', verb: 'play' },
+            { img: 'img/MrsStar7.png', subject: 'Mrs Star', can: false, action: 'play the guitar', verb: 'play' },
+            { img: 'img/MrStar1.png', subject: 'Mr Star', can: true, action: 'run', verb: 'run' },
+            { img: 'img/MrStar2.png', subject: 'Mr Star', can: true, action: 'play basketball', verb: 'play' },
+            { img: 'img/MrStar3.png', subject: 'Mr Star', can: true, action: 'ride a horse', verb: 'ride' },
+            { img: 'img/MrStar4.png', subject: 'Mr Star', can: false, action: 'play basketball', verb: 'play' },
+            { img: 'img/MrStar5.png', subject: 'Mr Star', can: true, action: 'swim', verb: 'swim' },
+            { img: 'img/Simon1.png', subject: 'Simon', can: true, action: 'jump', verb: 'jump' },
+            { img: 'img/Simon2.png', subject: 'Simon', can: true, action: 'sing', verb: 'sing' },
+            { img: 'img/Simon3.png', subject: 'Simon', can: false, action: 'draw a picture', verb: 'draw' },
+            { img: 'img/Simon4.png', subject: 'Simon', can: true, action: 'play the piano', verb: 'play' },
+            { img: 'img/Simon5.png', subject: 'Simon', can: true, action: 'play the guitar', verb: 'play' },
+            { img: 'img/Simon6.png', subject: 'Simon', can: true, action: 'play basketball', verb: 'play' },
+            { img: 'img/Stella1.png', subject: 'Stella', can: false, action: 'fly', verb: 'fly' },
+            { img: 'img/Stella2.png', subject: 'Stella', can: true, action: 'jump', verb: 'jump' },
+            { img: 'img/Stella3.png', subject: 'Stella', can: true, action: 'draw a picture', verb: 'draw' },
+            { img: 'img/Suzy1.png', subject: 'Suzy', can: true, action: 'run', verb: 'run' },
+            { img: 'img/Suzy2.png', subject: 'Suzy', can: true, action: 'climb a tree', verb: 'climb' },
+            { img: 'img/Suzy3.png', subject: 'Suzy', can: true, action: 'dance', verb: 'dance' },
+            { img: 'img/Suzy4.png', subject: 'Suzy', can: true, action: 'swim', verb: 'swim' },
+            { img: 'img/Suzy5.png', subject: 'Suzy', can: true, action: 'ride a bike', verb: 'ride' }
+        ];
+
+        let activeActions = [];
+        let activeGrammar = [];
+
+        let currentLevel = 0;
+        let currentIndex = 0;
+        let isSpeaking = false;
+        let currentStep = 0;
+        let currentExercise = null;
+
+        function shuffle(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function detectDevice() {
+            if (window.innerWidth <= 768) {
+                document.body.classList.remove('desktop');
+                document.body.classList.add('mobile');
+            } else {
+                document.body.classList.remove('mobile');
+                document.body.classList.add('desktop');
+            }
+        }
+
+        window.addEventListener('resize', detectDevice);
+        detectDevice();
+
+        function speak(text, callback) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                isSpeaking = true;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-GB';
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                
+                utterance.onend = function() {
+                    isSpeaking = false;
+                    if (callback) callback();
+                };
+                
+                utterance.onerror = function() {
+                    isSpeaking = false;
+                    if (callback) callback();
+                };
+                
+                speechSynthesis.speak(utterance);
+            } else {
+                if (callback) setTimeout(callback, 1000);
+            }
+        }
+
+        function startLevel(level) {
+            currentLevel = level;
+            
+            document.getElementById('mainMenu').style.display = 'none';
+            document.querySelectorAll('.game-screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            if (level === 1) {
+                activeActions = shuffle(actionsMaster);
+                currentIndex = 0;
+                initLevel1();
+                document.getElementById('level1').classList.add('active');
+            } else if (level === 2) {
+                activeActions = shuffle(actionsMaster);
+                currentIndex = 0;
+                initLevel2();
+                document.getElementById('level2').classList.add('active');
+            } else if (level === 3) {
+                activeGrammar = shuffle(grammarExercisesMaster).slice(0, 10);
+                currentIndex = 0;
+                initLevel3();
+                document.getElementById('level3').classList.add('active');
+            }
+        }
+
+        function backToMenu() {
+            document.querySelectorAll('.game-screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById('mainMenu').style.display = 'flex';
+            
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+            }
+            isSpeaking = false;
+        }
+
+        // Level 1: Flashcards
+        function initLevel1() {
+            const action = activeActions[currentIndex];
+            document.getElementById('progress1').textContent = `${currentIndex + 1} / ${activeActions.length}`;
+            
+            const img = document.getElementById('cardImg');
+            img.src = action.img;
+            img.onerror = function() {
+                this.alt = 'Image not available';
+            };
+            
+            document.getElementById('cardWord').innerHTML = `🔊 ${action.word}`;
+            
+            document.getElementById('prevCardBtn').disabled = (currentIndex === 0);
+            document.getElementById('nextCardBtn').disabled = (currentIndex === activeActions.length - 1);
+            
+            speak(action.word);
+        }
+
+        function speakCurrentCard() {
+            speak(activeActions[currentIndex].word);
+        }
+
+        function nextCard() {
+            if (currentIndex < activeActions.length - 1) {
+                currentIndex++;
+                initLevel1();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                initLevel1();
+            }
+        }
+
+        // Level 2: Multiple Choice
+        function initLevel2() {
+            if (currentIndex >= activeActions.length) {
+                currentIndex = 0;
+                activeActions = shuffle(actionsMaster);
+            }
+            
+            const currentAction = activeActions[currentIndex];
+            document.getElementById('progress2').textContent = `${currentIndex + 1} / ${activeActions.length}`;
+            
+            const quizImg = document.getElementById('quizImg');
+            quizImg.src = currentAction.img;
+            quizImg.onerror = function() {
+                this.alt = 'Image not available';
+            };
+            
+            const options = [currentAction.word];
+            const wrongOptions = actionsMaster.filter(a => a.word !== currentAction.word);
+            const shuffledWrong = shuffle(wrongOptions);
+            
+            for (let i = 0; i < 3 && i < shuffledWrong.length; i++) {
+                options.push(shuffledWrong[i].word);
+            }
+            
+            const finalOptions = shuffle(options);
+            
+            const grid = document.getElementById('optionsGrid');
+            grid.innerHTML = '';
+            
+            finalOptions.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = function() {
+                    checkAnswer(option, currentAction.word, btn);
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct, btn) {
+            if (isSpeaking) return;
+            
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(b => b.disabled = true);
+            
+            if (selected === correct) {
+                btn.classList.add('correct');
+                speak(correct, function() {
+                    setTimeout(function() {
+                        currentIndex++;
+                        initLevel2();
+                    }, 500);
+                });
+            } else {
+                btn.classList.add('wrong');
+                setTimeout(function() {
+                    btn.classList.remove('wrong');
+                    buttons.forEach(b => b.disabled = false);
+                }, 1000);
+            }
+        }
+
+        // Level 3: Can/Can't
+        function initLevel3() {
+            if (currentIndex >= activeGrammar.length) {
+                currentIndex = 0;
+                activeGrammar = shuffle(grammarExercisesMaster).slice(0, 10);
+            }
+            
+            currentExercise = activeGrammar[currentIndex];
+            currentStep = 0;
+            
+            document.getElementById('progress3').textContent = `${currentIndex + 1} / ${activeGrammar.length}`;
+            
+            const grammarImg = document.getElementById('grammarImg');
+            grammarImg.src = currentExercise.img;
+            grammarImg.onerror = function() {
+                this.alt = 'Image not available';
+            };
+            
+            renderSentence();
+            renderChoices();
+        }
+
+        function renderSentence() {
+            const sentenceEl = document.getElementById('sentence');
+            const parts = currentExercise.subject.split(' ');
+            
+            let html = '';
+            parts.forEach(function(part) {
+                html += '<span>' + part + '</span> ';
+            });
+            
+            if (currentStep === 0) {
+                html += '<span class="blank" id="blank1">?</span> ';
+                html += '<span class="blank" id="blank2">________</span>';
+            } else {
+                html += '<span class="blank filled">' + (currentExercise.can ? "can" : "can't") + '</span> ';
+                html += '<span class="blank" id="blank2">________</span>';
+            }
+            
+            html += ' <span>' + currentExercise.action.split(' ').slice(1).join(' ') + '</span>';
+            
+            sentenceEl.innerHTML = html;
+        }
+
+        function renderChoices() {
+            const container = document.getElementById('choicesContainer');
+            container.innerHTML = '';
+            
+            if (currentStep === 0) {
+                const canBtn = document.createElement('button');
+                canBtn.className = 'choice-btn';
+                canBtn.textContent = 'can';
+                canBtn.onclick = function() {
+                    chooseCanCant(true);
+                };
+                
+                const cantBtn = document.createElement('button');
+                cantBtn.className = 'choice-btn';
+                cantBtn.textContent = "can't";
+                cantBtn.onclick = function() {
+                    chooseCanCant(false);
+                };
+                
+                container.appendChild(canBtn);
+                container.appendChild(cantBtn);
+            } else {
+                const verbs = ['swim', 'play', 'ride', 'draw', 'climb', 'dance', 'sing', 'run', 'jump', 'fly'];
+                let shuffled = shuffle(verbs).slice(0, 4);
+                
+                if (shuffled.indexOf(currentExercise.verb) === -1) {
+                    shuffled[0] = currentExercise.verb;
+                }
+                
+                shuffled = shuffle(shuffled);
+                
+                shuffled.forEach(function(verb) {
+                    const btn = document.createElement('button');
+                    btn.className = 'choice-btn';
+                    btn.textContent = verb;
+                    btn.onclick = function() {
+                        chooseAction(verb);
+                    };
+                    container.appendChild(btn);
+                });
+            }
+        }
+
+        function chooseCanCant(can) {
+            if (isSpeaking) return;
+            
+            const isCorrect = (can === currentExercise.can);
+            const buttons = document.querySelectorAll('.choice-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            
+            if (isCorrect) {
+                buttons.forEach(function(btn) {
+                    if ((can && btn.textContent === 'can') || (!can && btn.textContent === "can't")) {
+                        btn.classList.add('correct');
+                    }
+                });
+                
+                currentStep = 1;
+                setTimeout(function() {
+                    renderSentence();
+                    renderChoices();
+                }, 500);
+            } else {
+                buttons.forEach(function(btn) {
+                    if ((can && btn.textContent === 'can') || (!can && btn.textContent === "can't")) {
+                        btn.classList.add('wrong');
+                        setTimeout(function() {
+                            btn.classList.remove('wrong');
+                        }, 500);
+                    }
+                });
+                setTimeout(function() {
+                    buttons.forEach(function(b) { b.disabled = false; });
+                }, 500);
+            }
+        }
+
+        function chooseAction(verb) {
+            if (isSpeaking) return;
+            
+            const buttons = document.querySelectorAll('.choice-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            
+            if (verb === currentExercise.verb) {
+                buttons.forEach(function(btn) {
+                    if (btn.textContent === verb) {
+                        btn.classList.add('correct');
+                    }
+                });
+                
+                const blank2 = document.getElementById('blank2');
+                if (blank2) {
+                    blank2.textContent = verb;
+                    blank2.classList.add('filled');
+                }
+                
+                const fullSentence = currentExercise.subject + ' ' + 
+                    (currentExercise.can ? 'can' : "can't") + ' ' + 
+                    currentExercise.action;
+                
+                speak(fullSentence, function() {
+                    setTimeout(function() {
+                        currentIndex++;
+                        initLevel3();
+                    }, 1000);
+                });
+            } else {
+                buttons.forEach(function(btn) {
+                    if (btn.textContent === verb) {
+                        btn.classList.add('wrong');
+                        setTimeout(function() {
+                            btn.classList.remove('wrong');
+                        }, 500);
+                    }
+                });
+                setTimeout(function() {
+                    buttons.forEach(function(b) { b.disabled = false; });
+                }, 500);
+            }
+        }
+
+        function showRule() {
+            document.getElementById('ruleModal').classList.add('active');
+        }
+
+        function hideRule(event) {
+            if (!event || event.target.id === 'ruleModal' || event.target.className === 'rule-close') {
+                document.getElementById('ruleModal').classList.remove('active');
+            }
+        }
+
+        window.onload = function() {
+            detectDevice();
+        };
+    </script>
+</body>
+</html>
